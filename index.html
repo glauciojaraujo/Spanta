@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina de Cuíca - Bloco Spanta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f3e9;
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.75);
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <!-- Chosen Palette: Carnival (Fundo: #f7f3e9, Verde: #059669, Amarelo: #fcd34d, Rosa: #f472b6, Azul Escuro: #1e3a8a) -->
+    <!-- Application Structure Plan: This is a single-page sales funnel with data centralized in a JS object for easy editing. The structure follows a compelling narrative: Hook (emotional promise), Authority (director's credibility), The Promise (benefits list), Social Proof (photos from past events), and a clear CTA (call to action). The design is vibrant and dynamic, aiming to capture the youthful and energetic vibe of a Rio de Janeiro carnival bloc. -->
+    <!-- Visualization & Content Choices: Content is presented in distinct, scrollable sections. The authority section uses a dedicated card with an image and text to build credibility. The promise and offer details are presented in easy-to-read bullet points. The photos section uses a responsive grid to showcase the event's energy. A button triggers a modal form, keeping the user on the page. Justification: This structure guides the user from emotional connection to trust and finally to conversion, which is a proven funnel for workshops and events. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Modal de Inscrição -->
+    <div id="enrollment-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-[#1e3a8a]">Garanta sua Vaga</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+            <div id="modal-content">
+                <p class="text-gray-700 mb-6">Preencha seus dados para receber todas as informações sobre a oficina de cuíca.</p>
+                <form id="enrollment-form">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-600 text-sm font-medium mb-1">Nome Completo</label>
+                        <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fcd34d]" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-600 text-sm font-medium mb-1">E-mail</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fcd34d]" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="phone" class="block text-gray-600 text-sm font-medium mb-1">Telefone (WhatsApp)</label>
+                        <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fcd34d]" required>
+                    </div>
+                    <button type="submit" class="w-full bg-[#1e3a8a] text-white font-bold py-3 rounded-lg hover:bg-[#152e4f] transition-colors duration-300">Garantir Minha Vaga</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Gancho -->
+    <header class="bg-[#1e3a8a] text-white py-20 md:py-32 rounded-b-[4rem] mb-12 shadow-lg">
+        <div class="container mx-auto px-4 md:px-8 max-w-5xl text-center">
+            <h1 id="hero-title" class="text-4xl md:text-6xl font-extrabold leading-tight mb-4"></h1>
+            <p id="hero-subtitle" class="text-lg md:text-xl font-light mb-8 max-w-3xl mx-auto"></p>
+            <div class="mt-8">
+                <button onclick="openModal()" class="bg-[#fcd34d] text-[#1e3a8a] font-bold py-4 px-12 rounded-full hover:bg-[#fcd34d]/80 transition-colors duration-300 transform hover:scale-105 shadow-lg">Quero Tocar no Spanta! (Inscrições Abertas)</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-8 max-w-5xl">
+        <!-- Seção da Autoridade -->
+        <section class="bg-white p-8 md:p-12 rounded-2xl shadow-md mb-12 flex flex-col md:flex-row items-center gap-8">
+            <div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden flex-shrink-0">
+                <img id="author-image" alt="Foto do Diretor do naipe de Cuíca" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center md:text-left">
+                <h2 id="author-name" class="text-3xl font-bold text-[#1e3a8a] mb-2"></h2>
+                <p id="author-bio" class="text-gray-700 leading-relaxed"></p>
+            </div>
+        </section>
+        
+        <!-- Seção de Promessa (Benefícios) -->
+        <section class="bg-[#059669] text-white p-8 md:p-12 rounded-2xl shadow-md mb-12">
+            <h2 id="promise-title" class="text-3xl font-bold text-center mb-8"></h2>
+            <ul id="promise-list" class="list-disc list-inside leading-relaxed space-y-2 max-w-2xl mx-auto text-center"></ul>
+        </section>
+
+        <!-- Seção de Prova Social com Depoimentos -->
+        <section class="bg-white p-8 md:p-12 rounded-2xl shadow-md mb-12">
+            <h2 id="testimonials-title" class="text-3xl font-bold text-[#1e3a8a] text-center mb-8"></h2>
+            <div id="testimonials-section" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+        </section>
+
+        <!-- Seção de Prova Social com Fotos -->
+        <section class="bg-white p-8 md:p-12 rounded-2xl shadow-md mb-12">
+            <h2 id="photos-title" class="text-3xl font-bold text-[#1e3a8a] text-center mb-8"></h2>
+            <div id="photos-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            <p id="photos-description" class="text-gray-700 mt-8 max-w-3xl mx-auto text-center"></p>
+        </section>
+
+        <!-- Seção Final de CTA -->
+        <section class="bg-[#1e3a8a] text-white p-8 md:p-12 rounded-2xl shadow-md text-center mb-12">
+            <h2 id="cta-final-title" class="text-3xl font-bold mb-4"></h2>
+            <p id="cta-final-text" class="text-lg font-light mb-8 max-w-3xl mx-auto"></p>
+            <button onclick="openModal()" class="bg-[#fcd34d] text-[#1e3a8a] font-bold py-4 px-12 rounded-full hover:bg-[#fcd34d]/80 transition-colors duration-300 transform hover:scale-105 shadow-lg">Garantir Minha Vaga e Tocar no Spanta!</button>
+        </section>
+    </main>
+    
+    <footer class="text-center text-gray-500 text-sm py-8">
+        <p id="footer-text"></p>
+    </footer>
+
+    <script>
+        const dadosDaPagina = {
+            gancho: {
+                titulo: "Domine a Cuíca e Sinta a Energia do Carnaval com o Bloco Spanta!",
+                subtitulo: "Inscrições abertas para a Oficina de Cuíca. Aprenda com o diretor do naipe de cuícas de um dos blocos mais animados do Rio!"
+            },
+            autoridade: {
+                imagem: "https://placehold.co/400x400/1e3a8a/34d399?text=Mestre+da+Cuíca",
+                nome: "Conheça o Diretor",
+                bio: "Sou o [Seu Nome], ritmista com mais de 16 anos de experiência e diretor do naipe de cuícas do Bloco Spanta. Atuo também como ritmista do G.R.E.S. Acadêmicos do Salgueiro e do G.R.E.S. Unidos da Tijuca, além de ser diretor de cuícas das escolas G.R.E.S. São Clemente, G.R.E.S. Mocidade Unida do Santa Marta e do G.R.E.S. Botafogo Samba Clube. Minha missão é ensinar todos os segredos desse instrumento que é a alma do samba, com a vibração única do Spanta!"
+            },
+            promessa: {
+                titulo: "O que você irá aprender na oficina:",
+                itens: [
+                    "Aprenda os ritmos e as técnicas que tornam a cuíca do Spanta única.",
+                    "Sinta a energia do maior bloco da Zona Sul participando dos ensaios.",
+                    "Desfile com a gente no Carnaval do Rio de Janeiro!",
+                    "Faça parte de uma comunidade apaixonada por música e festa.",
+                    "Receba a orientação de um diretor experiente e reconhecido no mundo do samba."
+                ]
+            },
+            depoimentos: {
+                titulo: "O que dizem nossos alunos:",
+                itens: [
+                    { texto: "Placeholder para depoimento de aluno.", autor: "Aluno A" },
+                    { texto: "Placeholder para depoimento de aluno.", autor: "Aluno B" }
+                ]
+            },
+            fotos: {
+                titulo: "Relembre a Energia do Carnaval!",
+                imagens: [
+                    { url: "https://placehold.co/600x400/f472b6/ffffff?text=Desfile+2023", alt: "Desfile Bloco Spanta 2023" },
+                    { url: "https://placehold.co/600x400/fcd34d/ffffff?text=Desfile+2024", alt: "Desfile Bloco Spanta 2024" },
+                    { url: "https://placehold.co/600x400/059669/ffffff?text=Ensaios+da+Oficina", alt: "Ensaios da Oficina de Cuíca" },
+                    { url: "https://placehold.co/600x400/f472b6/ffffff?text=Mais+Desfile", alt: "Mais Desfiles Anteriores" },
+                    { url: "https://placehold.co/600x400/fcd34d/ffffff?text=Mais+Ensaios", alt: "Mais Ensaios Anteriores" },
+                    { url: "https://placehold.co/600x400/059669/ffffff?text=Fotos+da+Turma", alt: "Fotos das Turmas Anteriores" }
+                ],
+                descricao: "Veja a energia contagiante dos nossos desfiles e ensaios. É a sua chance de fazer parte disso!"
+            },
+            ctaFinal: {
+                titulo: "Pronto para tocar cuíca no Spanta?",
+                subtitulo: "As inscrições estão abertas! Garanta sua vaga e sinta a emoção de desfilar no maior carnaval da Zona Sul."
+            },
+            rodape: "© 2024 Bloco Spanta. Todos os direitos reservados."
+        };
+
+        const modal = document.getElementById('enrollment-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            modalContent.innerHTML = `
+                <p class="text-gray-700 mb-6">Preencha seus dados para receber todas as informações sobre a oficina de cuíca.</p>
+                <form id="enrollment-form">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-600 text-sm font-medium mb-1">Nome Completo</label>
+                        <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fcd34d]" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-600 text-sm font-medium mb-1">E-mail</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fcd34d]" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="phone" class="block text-gray-600 text-sm font-medium mb-1">Telefone (WhatsApp)</label>
+                        <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fcd34d]" required>
+                    </div>
+                    <button type="submit" class="w-full bg-[#1e3a8a] text-white font-bold py-3 rounded-lg hover:bg-[#152e4f] transition-colors duration-300">Garantir Minha Vaga</button>
+                </form>
+            `;
+            document.getElementById('enrollment-form').addEventListener('submit', handleEnrollment);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleEnrollment(event) {
+            event.preventDefault();
+            modalContent.innerHTML = `
+                <div class="text-center p-8">
+                    <h3 class="text-2xl font-bold text-[#059669] mb-4">Inscrição Realizada com Sucesso!</h3>
+                    <p class="text-gray-700 mb-6">A nossa equipe entrará em contato em breve para finalizar a sua inscrição.</p>
+                    <button onclick="closeModal()" class="bg-[#fcd34d] text-[#1e3a8a] font-bold py-3 px-8 rounded-full hover:bg-[#fcd34d]/80 transition-colors duration-300">Fechar</button>
+                </div>
+            `;
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        function renderPage(data) {
+            const sections = {
+                'hero-title': data.gancho.titulo,
+                'hero-subtitle': data.gancho.subtitulo,
+                'author-name': data.autoridade.nome,
+                'author-bio': data.autoridade.bio,
+                'promise-title': data.promessa.titulo,
+                'testimonials-title': data.depoimentos.titulo,
+                'photos-title': data.fotos.titulo,
+                'photos-description': data.fotos.descricao,
+                'cta-final-title': data.ctaFinal.titulo,
+                'cta-final-text': data.ctaFinal.subtitulo,
+                'footer-text': data.rodape
+            };
+
+            for (const id in sections) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerText = sections[id];
+                }
+            }
+            
+            // Set the author image
+            const authorImage = document.getElementById('author-image');
+            if (authorImage) {
+                authorImage.src = data.autoridade.imagem;
+                authorImage.alt = `Foto de ${data.autoridade.nome}`;
+            }
+
+            // Render promise list
+            const promiseList = document.getElementById('promise-list');
+            if (promiseList) {
+                promiseList.innerHTML = data.promessa.itens.map(item => `<li>${item}</li>`).join('');
+            }
+
+            // Render testimonials
+            const testimonialsSection = document.getElementById('testimonials-section');
+            if (testimonialsSection) {
+                testimonialsSection.innerHTML = data.depoimentos.itens.map(t => `
+                    <div class="bg-[#F3F4F6] p-6 rounded-2xl shadow-sm">
+                        <p class="text-gray-700 italic mb-4">"${t.texto}"</p>
+                        <p class="font-bold text-[#1e3a8a]">- ${t.autor}</p>
+                    </div>
+                `).join('');
+            }
+            
+            // Render photos
+            const photosSection = document.getElementById('photos-section');
+            if (photosSection) {
+                photosSection.innerHTML = data.fotos.imagens.map(img => `
+                    <div class="w-full h-auto overflow-hidden rounded-xl shadow-md">
+                        <img src="${img.url}" alt="${img.alt}" class="w-full h-full object-cover">
+                    </div>
+                `).join('');
+            }
+        }
+
+        window.onload = () => {
+            renderPage(dadosDaPagina);
+        };
+    </script>
+</body>
+</html>
